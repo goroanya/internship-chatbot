@@ -1,6 +1,6 @@
 {
     "name": "test-bot",
-    "description": "Test telegram-bot on Node Red with ngrok.",
+    "description": "Telegram-bot",
     "version": "0.0.1",
     "dependencies": {},
     "node-red": {
