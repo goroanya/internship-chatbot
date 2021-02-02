@@ -584,7 +584,7 @@
         "type": "function",
         "z": "4e373eea.a5d57",
         "name": "",
-        "func": "msg.method = \"POST\";\nmsg.url = `https://api.telegram.org/bot${msg.telegram_token}/sendMessage`;\nmsg.payload = {\n\n    \"text\": msg._dialogflow.fulfillmentText,\n    \"chat_id\": msg.receiver,\n\n  }\n//*************\nqueryParams = {}\nif( msg._dialogflow.outputContexts.length != 0){\n    \n    df_output_context = msg._dialogflow.outputContexts;\n    \n    fields_obj = df_output_context[0].parameters.fields\n    fields = Object.keys(fields_obj).filter(field_name => fields_obj[field_name]['stringValue'] != '' && !field_name.includes('.original'))\n    key_val = {}\n    fields.forEach(field_name => key_val[field_name] = fields_obj[field_name]['stringValue'])\n\n\n    queryParams = {\n        \"contexts\": [{\n            \"name\" : df_output_context[0].name,\n            \"lifespanCount\": 5,\n            \"parameters\": key_val\n            }\n        ]\n    }\n}\n//*********\n\nreturn msg;\n",
+        "func": "msg.method = \"POST\";\nmsg.url = `https://api.telegram.org/bot${msg.telegram_token}/sendMessage`;\nmsg.payload = {\n\n    \"text\": msg._dialogflow.fulfillmentText,\n    \"chat_id\": msg.receiver,\n\n  }\n// trying to extract context\n// got an issue to transfer this data to Dialogflow node through http request\n// \n//*************\nqueryParams = {}\nif( msg._dialogflow.outputContexts.length != 0){\n    \n    df_output_context = msg._dialogflow.outputContexts;\n    \n    fields_obj = df_output_context[0].parameters.fields\n    fields = Object.keys(fields_obj).filter(field_name => fields_obj[field_name]['stringValue'] != '' && !field_name.includes('.original'))\n    key_val = {}\n    fields.forEach(field_name => key_val[field_name] = fields_obj[field_name]['stringValue'])\n\n\n    queryParams = {\n        \"contexts\": [{\n            \"name\" : df_output_context[0].name,\n            \"lifespanCount\": 5,\n            \"parameters\": key_val\n            }\n        ]\n    }\n}\n//*********\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -716,30 +716,6 @@
                 "790a5d2b.c05864"
             ]
         ]
-    },
-    {
-        "id": "33f7fa5c.8a8b96",
-        "type": "link in",
-        "z": "92f9cbe5.9889c8",
-        "name": "",
-        "links": [
-            "618c65ed.a53e6c"
-        ],
-        "x": 195,
-        "y": 1580,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "6e036a01.aa7874",
-        "type": "comment",
-        "z": "92f9cbe5.9889c8",
-        "name": "Complete your action",
-        "info": "",
-        "x": 350,
-        "y": 1580,
-        "wires": []
     },
     {
         "id": "9fa4c1d0.024b7",
