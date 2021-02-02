@@ -447,7 +447,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 130,
-        "y": 240,
+        "y": 160,
         "wires": [
             [
                 "328ab8ca.06cf58"
@@ -468,7 +468,7 @@
         "proxy": "",
         "authType": "basic",
         "x": 750,
-        "y": 240,
+        "y": 160,
         "wires": [
             [
                 "9451c8d5.de3d28"
@@ -488,7 +488,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 890,
+        "x": 770,
         "y": 240,
         "wires": []
     },
@@ -525,7 +525,8 @@
         "y": 360,
         "wires": [
             [
-                "9d0baf18.740fe"
+                "9fa4c1d0.024b7",
+                "6f90c2f8.fdf0fc"
             ]
         ]
     },
@@ -562,23 +563,6 @@
         "wires": []
     },
     {
-        "id": "9d0baf18.740fe",
-        "type": "dialogflowv2",
-        "z": "4e373eea.a5d57",
-        "dialogflow": "f3dfe751.9ee8b8",
-        "language": "uk",
-        "debug": true,
-        "queryParamsOK": false,
-        "x": 800,
-        "y": 360,
-        "wires": [
-            [
-                "7e64cefa.22b39",
-                "9b3fba36.06b608"
-            ]
-        ]
-    },
-    {
         "id": "846489a9.7784a8",
         "type": "debug",
         "z": "4e373eea.a5d57",
@@ -587,10 +571,11 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 130,
+        "x": 110,
         "y": 540,
         "wires": []
     },
@@ -599,7 +584,7 @@
         "type": "function",
         "z": "4e373eea.a5d57",
         "name": "",
-        "func": "msg.method = \"POST\";\nmsg.url = `https://api.telegram.org/bot${msg.telegram_token}/sendMessage`;\nmsg.payload = {\n    \"text\": msg._dialogflow.fulfillmentText,\n    \"chat_id\": msg.receiver,\n}\nreturn msg;\n",
+        "func": "msg.method = \"POST\";\nmsg.url = `https://api.telegram.org/bot${msg.telegram_token}/sendMessage`;\nmsg.payload = {\n\n    \"text\": msg._dialogflow.fulfillmentText,\n    \"chat_id\": msg.receiver,\n\n  }\n//*************\nqueryParams = {}\nif( msg._dialogflow.outputContexts.length != 0){\n    \n    df_output_context = msg._dialogflow.outputContexts;\n    \n    fields_obj = df_output_context[0].parameters.fields\n    fields = Object.keys(fields_obj).filter(field_name => fields_obj[field_name]['stringValue'] != '' && !field_name.includes('.original'))\n    key_val = {}\n    fields.forEach(field_name => key_val[field_name] = fields_obj[field_name]['stringValue'])\n\n\n    queryParams = {\n        \"contexts\": [{\n            \"name\" : df_output_context[0].name,\n            \"lifespanCount\": 5,\n            \"parameters\": key_val\n            }\n        ]\n    }\n}\n//*********\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -621,7 +606,8 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
         "x": 1230,
@@ -671,10 +657,11 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 830,
+        "x": 890,
         "y": 460,
         "wires": []
     },
@@ -689,7 +676,7 @@
         "initialize": "",
         "finalize": "",
         "x": 570,
-        "y": 240,
+        "y": 160,
         "wires": [
             [
                 "bda16d62.01eff"
@@ -706,7 +693,7 @@
                 "t": "set",
                 "p": "ngrok_url",
                 "pt": "msg",
-                "to": "https://a63f1b5d29e2.ngrok.io",
+                "to": "https://e4578964a814.ngrok.io",
                 "tot": "str"
             },
             {
@@ -723,11 +710,69 @@
         "to": "",
         "reg": false,
         "x": 360,
-        "y": 240,
+        "y": 160,
         "wires": [
             [
                 "790a5d2b.c05864"
             ]
         ]
+    },
+    {
+        "id": "33f7fa5c.8a8b96",
+        "type": "link in",
+        "z": "92f9cbe5.9889c8",
+        "name": "",
+        "links": [
+            "618c65ed.a53e6c"
+        ],
+        "x": 195,
+        "y": 1580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6e036a01.aa7874",
+        "type": "comment",
+        "z": "92f9cbe5.9889c8",
+        "name": "Complete your action",
+        "info": "",
+        "x": 350,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "9fa4c1d0.024b7",
+        "type": "dialogflowv2",
+        "z": "4e373eea.a5d57",
+        "dialogflow": "f3dfe751.9ee8b8",
+        "language": "uk",
+        "debug": true,
+        "variable": "",
+        "x": 780,
+        "y": 360,
+        "wires": [
+            [
+                "9b3fba36.06b608",
+                "7e64cefa.22b39"
+            ]
+        ]
+    },
+    {
+        "id": "6f90c2f8.fdf0fc",
+        "type": "debug",
+        "z": "4e373eea.a5d57",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 460,
+        "wires": []
     }
 ]
