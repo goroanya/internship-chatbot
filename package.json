@@ -2,7 +2,10 @@
     "name": "test-bot",
     "description": "Telegram-bot",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "dialogflow-full-nodered": "1.0.10",
+        "node-red-contrib-mongodb3": "2.0.1"
+    },
     "node-red": {
         "settings": {
             "flowFile": "flows.json",
